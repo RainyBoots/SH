@@ -1,0 +1,22 @@
+.body {
+    background-color: #f8f9fa;  /* Светлый фон */
+}
+
+.card {
+    border: 1px solid #343a40;  /* Темная граница */
+}
+
+/* Стили для кнопок в черных и серых тонах */
+.btn-dark {
+    background-color: #343a40;   /* Темно-серый цвет */
+    color: white;                 /* Белый текст */
+}
+
+.btn-dark:hover {
+    background-color: #23272b;    /* Темный серый при наведении */
+}
+
+.btn-secondary {
+    background-color: #6c757d;   /* Серый */
+    color: white;                 /* Белый текст */
+}

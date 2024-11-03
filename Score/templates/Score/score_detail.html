@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ score.title }}{% endblock %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/score_detail.css' %}">
+{% endblock  %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 no-font" id="osmd-container"> </div>
+        <div class="col-md-4" id="info-container">
+            <div class="card shadow-sm bg-light">
+                <div class="card-header bg-white border-bottom">
+                    <a href="{% url 'title_detail' score.title.id %}" class="card-title mb-0 text-decoration-none text-dark">
+                        <h4>{{ score.title.name|default:"Название неизвестно" }}</h4>
+                </div>
+                <div class="card-body">
+                    {% if score.artist %}
+                    <div class="mb-3">
+                        <h5 class="text-muted small text-uppercase">Исполнитель</h5>
+                        <p class="card-text">
+                            <i class="fas fa-user me-2"></i>
+                            <a href="{% url 'artist_detail' score.artist.id %}" class="text-decoration-none text-secondary">
+                                {{ score.artist.name }}
+                            </a>
+                        </p>
+                    </div>
+                    {% endif %}
+    
+                {% if score.ensemble_type %}
+                <div class="mb-3">
+                    <h5 class="text-muted small text-uppercase">Тип ансамбля</h5>
+                    <p class="card-text">
+                        <i class="fas fa-users me-2"></i>
+                        {% if score.ensemble_type.name == "Solo" and score.instruments.all %}
+                        <a href="{% url 'ensemble_type_detail' score.ensemble_type.id %}?instrument={{ score.instruments.first.id }}"
+                        class="text-decoration-none text-secondary">
+                            {{ score.ensemble_type.name }} {{ score.instruments.first.name }}
+                        </a>
+                    {% else %}
+                        <a href="{% url 'ensemble_type_detail' score.ensemble_type.id %}"
+                        class="text-decoration-none text-secondary">
+                            {{ score.ensemble_type.name }}
+                        </a>
+                    {% endif %}
+                    </p>
+                </div>
+                {% endif %}
+                
+    
+                {% if score.instruments.exists %}
+                <div class="mb-3">
+                    <h5 class="text-muted small text-uppercase">Инструменты</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for instrument in score.instruments.all %}
+                        <a href="{% url 'instrument_scores' instrument.id %}" 
+                        class="badge bg-secondary text-decoration-none">
+                        {{ instrument.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+    
+                <div class="card bg-white mb-3">
+                    <div class="card-body p-3">
+                        <div class="row g-2">
+                            {% if score.key %}
+                            <div class="col-6">
+                                <div class="text-muted small">Тональность</div>
+                                <div>{{ score.key }}</div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if score.part_count %}
+                            <div class="col-6">
+                                <div class="text-muted small">Кол-во партий</div>
+                                <div>{{ score.part_count }}</div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if score.page_count %}
+                            <div class="col-6">
+                                <div class="text-muted small">Страниц</div>
+                                <div>{{ score.page_count }}</div>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="col-6">
+                                <div class="text-muted small">Такты</div>
+                                <div>{{ score.measures }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="mb-3">
+                    <div class="favorite-container" data-score-id="{{ score.id }}">
+                    <span class="favorite-btn">
+                        {% if score.is_favorite %}
+                            <i class="fas fa-heart text-danger"></i>
+                        {% else %}
+                            <i class="far fa-heart"></i>
+                        {% endif %}
+                    </span>
+                    <span class="favorite-status">
+                        {% if score.is_favorite %}
+                            В избранном
+                        {% else %}
+                            Добавить в избранное
+                        {% endif %}
+                    </span>
+                </div>
+                </div>
+                <div class="card bg-white">
+                    <div class="card-body p-3">
+                        <div class="mb-2">
+                            <small class="text-muted">Дата публикации:</small>
+                            <div>{{ score.publication_date|date:"d.m.Y" }}</div>
+                        </div>
+                        {% if score.last_modified %}
+                        <div>
+                            <small class="text-muted">Последнее изменение:</small>
+                            <div>{{ score.last_modified|date:"d.m.Y" }}</div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+                
+            <div class="card-footer bg-white border-top">
+                <div class="d-grid gap-2">
+                    <div class="btn-group" role="group">
+                        <a href="{% url 'score_update' score.pk %}" class="btn btn-outline-primary">
+                            <i class="fas fa-edit me-2"></i>Изменить
+                        </a>
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteScoreModal">
+                            <i class="fas fa-trash-alt me-2"></i>Удалить
+                        </button>
+                    </div>
+                    {% if score.score %}
+                    <a href="{{ score.score.url }}" class="btn btn-outline-dark" download>
+                        <i class="fas fa-download me-2"></i>Скачать партитуру
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteScoreModal" tabindex="-1" aria-labelledby="deleteScoreModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteScoreModalLabel">Подтверждение удаления</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены, что хотите удалить партитуру "{{ score.title.name }}"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <form action="{% url 'score_delete' score.pk %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js\toggleFavorite.js' %}"></script>
+<script>
+    var scoreFileUrl = "{{ score_file_url }}";
+</script>
+<script src="{% static 'js\opensheetmusicdisplay.min.js' %}"></script>
+<script src="{% static 'js\score_detail.js' %}"></script>
+<script src="{% static 'js/favorite-buttons.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const contentContainer = document.querySelector('.row.row-cols-1');
+        initializeFavoriteButtons(contentContainer);
+    });
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/score_catalog.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container-fluid py-4">
+    <!-- Заголовок секции с подчеркиванием -->
+        <h1 class="mb-4 pb-2 border-bottom">
+            Избранные партитуры
+        </h1>
+    </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3 g-md-4">
+        {% for score in favorite_scores %}
+            {% include "includes/score_preview.html" %}
+        {% endfor %}
+        </div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/favorite-buttons.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const contentContainer = document.querySelector('.row.row-cols-1');
+        initializeFavoriteButtons(contentContainer);
+    });
+</script>
+{% endblock  %}

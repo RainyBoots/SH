@@ -1,0 +1,95 @@
+<div class="mb-4 categories-container">
+    <h4 class="text-secondary mb-3">Категории ансамблей</h4>
+
+    {% if uncategorized_ensemble_types %}
+    <div class="accordion-item border-0 mb-2">
+        <div class="accordion-body pt-2 pb-1 px-3">
+            {% for ensemble_type in uncategorized_ensemble_types %}
+            <div class="form-check mb-2">
+                <input type="checkbox" 
+                       class="form-check-input" 
+                       name="ensemble_type" 
+                       value="{{ ensemble_type.id }}"
+                       {% if ensemble_type.id|stringformat:"s" in selected_ensemble_types %}checked{% endif %}>
+                <label class="form-check-label text-muted">
+                    {{ ensemble_type.name }}
+                    <small class="text-secondary">({{ ensemble_type.score_count }})</small>
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+    {% for category in categories %}
+        {% if category.ensemble_types.all|length > 0 %}
+            <div class="accordion-item border-0 mb-2">
+            <h2 class="accordion-header" id="category-{{ category.id }}">
+                <button class="accordion-button collapsed bg-transparent shadow-none" type="button" 
+                        data-bs-toggle="collapse" data-bs-target="#collapse-{{ category.id }}">
+                    <span class="text-dark font-cat">{{ category.name }}</span>
+                    <span class="indicator ms-2">{{ category.ensemble_type_count }}</span>
+                </button>
+            </h2>
+            <div id="collapse-{{ category.id }}" class="accordion-collapse collapse">
+                <div class="accordion-body pt-2 pb-1 px-3">
+                    {% for ensemble_type in category.ensemble_types.all %}
+                        {% if ensemble_type in available_ensemble_types %}
+                        <div class="form-check mb-2">
+                            <input type="checkbox" 
+                                   class="form-check-input" 
+                                   name="ensemble_type" 
+                                   value="{{ ensemble_type.id }}"
+                                   {% if ensemble_type.id|stringformat:"s" in selected_ensemble_types %}checked{% endif %}>
+                            <label class="form-check-label text-muted">
+                                {{ ensemble_type.name }}
+                                <small class="text-secondary">({{ ensemble_type.score_count }})</small>
+                            </label>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="mb-4 families-container">
+    <h4 class="text-secondary mb-3">Инструменты</h4>
+    {% for family in families %}
+        {% if family.instruments.all|length > 0 %}
+            <div class="accordion-item border-0 mb-2">
+            <h2 class="accordion-header" id="family-{{ family.id }}">
+                <button class="accordion-button collapsed bg-transparent shadow-none" type="button" 
+                        data-bs-toggle="collapse" data-bs-target="#collapse-family-{{ family.id }}">
+                    <span class="text-dark font-cat">{{ family.name }}</span>
+                    <span class="indicator ms-2">{{ family.instrument_count }}</span>
+                </button>
+            </h2>
+            <div id="collapse-family-{{ family.id }}" class="accordion-collapse collapse">
+                <div class="accordion-body pt-2 pb-1 px-3">
+                    {% for instrument in family.instruments.all %}
+                        {% if instrument in available_instruments %}
+                        <div class="form-check mb-2">
+                            <input type="checkbox" 
+                                   class="form-check-input" 
+                                   name="instrument" 
+                                   value="{{ instrument.id }}"
+                                   {% if instrument.id|stringformat:"s" in selected_instruments %}checked{% endif %}>
+                            <label class="form-check-label text-muted">
+                                {{ instrument.name }}
+                                <small class="text-secondary">({{ instrument.score_count }})</small>
+                            </label>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+<div class="d-grid gap-2">
+    <a href="{% url 'score_catalog' %}" class="btn btn-outline-secondary">Сбросить</a>
+</div>

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ title_page }}{% endblock title %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/score_catalog.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4 pb-2 border-bottom">
+        {{ title_h1 }}
+    </h1>
+    <div class="row position-relative">
+        <div class="col-12 col-lg-3 filter-sidebar" id="filterSidebar">
+            <div class="bg-light shadow-sm p-3 h-100 overflow-auto">
+                <div class="d-lg-none mb-3">
+                    <button class="btn btn-secondary w-100" id="closeFilters">
+                        Закрыть фильтры
+                    </button>
+                </div>
+                <form method="get" id="filter-form">
+                    {% include "includes/filters.html" %}
+                </form>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-9 main-content">
+            <div class="p-3 p-md-4">
+                <div class="d-lg-none mb-3">
+                    <button class="btn btn-secondary w-100" id="showFilters">
+                        Показать фильтры
+                    </button>
+                </div>
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3 g-md-4">
+                    {% for score in scores %}
+                        {% include "includes/score_preview.html" %}
+                    {% endfor %}
+                </div>
+
+                <div class="mt-4">
+                    {% include "include\pagination.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="loading-spinner" class="position-fixed top-50 start-50 translate-middle d-none">
+    <div class="spinner-border text-dark" role="status">
+        <span class="visually-hidden">Загрузка...</span>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js\favorite-buttons.js' %}"></script>
+<script src="{% static 'js\score_catalog.js' %}"></script>
+
+{% endblock %}

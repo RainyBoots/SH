@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}ScoreHub - Главная{% endblock title %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/score_catalog.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center py-5" style="background-color: #f8f9fa;">
+        <div class="col-12 col-lg-10">
+            <div class="row g-4">
+                <div class="col">
+                    <div class="card border-0 bg-light shadow-sm hover-shadow h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-music fs-1 text-dark mb-3"></i>
+                            <h5 class="card-title">Инструментов без класификациии</h5>
+                            <p class="card-text fs-4 fw-bold text-primary">{{ total_instruments }}</p>
+                            <a href="{% url 'instrument_list' %}" class="btn btn-outline-primary">Список инструментов</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card border-0 bg-light shadow-sm hover-shadow h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-clock fs-1 text-dark mb-3"></i>
+                            <h5 class="card-title">Недавние изменения</h5>
+                            <p class="card-text fs-4 fw-bold text-primary">{{ recent_scores_count }}</p>
+                            <a href="{% url 'recent_scores' %}" class="btn btn-outline-primary">Посмотреть</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card border-0 bg-light shadow-sm hover-shadow h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-users me-2 fs-1 text-dark mb-3"></i>
+                            <h5 class="card-title">Типов ансамбля без категории</h5>
+                            <p class="card-text fs-4 fw-bold text-primary">{{ total_ensemble_types_without_category }}</p>
+                            <a href="{% url 'ensemble_list' %}" class="btn btn-outline-primary">Список ансамблей</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card border-0 bg-light shadow-sm hover-shadow h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-alt fs-1 text-dark mb-3"></i>
+                            <h5 class="card-title">Общее количество партитур</h5>
+                            <p class="card-text fs-4 fw-bold text-primary">{{ total_Scores }}</p>
+                            <a href="{% url 'score_catalog' %}" class="btn btn-outline-primary">Список партитур</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center py-5">
+        <div class="col-12 col-lg-10">
+            <h2 class="mb-4">Недавно добавленные партитуры</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
+                {% for score in new_scores %}
+                    {% include "includes/score_preview.html" %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/favorite-buttons.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const contentContainer = document.querySelector('.row.row-cols-1');
+        initializeFavoriteButtons(contentContainer);
+    });
+</script>
+{% endblock %}

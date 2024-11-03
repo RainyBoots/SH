@@ -1,0 +1,84 @@
+#osmd-container {
+    background-color: #f0f0f0; 
+    overflow-y: auto; 
+    border: 1px solid #ccc; 
+    padding: 20px; /* Добавляем отступы внутри контейнера */
+    height: 90vh;
+    height: calc(100vh - 40px); /* Вычитаем отступы шапки или других элементов */
+    margin-bottom: 0; /* Убираем нижний отступ */
+}
+.osmd-page {
+    background-color: white;
+    padding: 10px;
+    margin: 0 auto 20px auto;
+    width: min(90%, 900px); /* Адаптивная ширина */
+    min-width: 500px; /* Минимальная ширина */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.osmd-page svg {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+}
+
+.osmd-page:last-child {
+    margin-bottom: 0;
+}
+
+/* Стили для полосы прокрутки */
+#osmd-container::-webkit-scrollbar {
+    width: 12px; /* Ширина полосы прокрутки */
+}
+
+#osmd-container::-webkit-scrollbar-track {
+    background: #f0f0f0; /* Цвет фона */
+    border-radius: 6px; /* Скругление углов */
+}
+
+#osmd-container::-webkit-scrollbar-thumb {
+    background: #888; /* Цвет полосы */
+    border-radius: 6px; /* Скругление углов */
+    border: 3px solid #f0f0f0; /* Отступ от краев */
+}
+
+#osmd-container::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Цвет при наведении */
+}
+
+#info-container .card {
+    border-radius: 10px;
+}
+
+#info-container .card-header {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#info-container .badge {
+    font-weight: normal;
+    padding: 0.5em 1em;
+}
+
+#info-container .rating-stars {
+    font-size: 1.1em;
+}
+
+#info-container .btn {
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+}
+
+#info-container .text-muted {
+    color: #6c757d !important;
+}
+
+#info-container .small {
+    font-size: 0.875rem;
+}
+
+#info-container .card-body {
+    padding: 1.5rem;
+}
+

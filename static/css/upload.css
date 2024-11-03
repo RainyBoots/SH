@@ -1,0 +1,39 @@
+/* Дополнительные стили для upload_score.css */
+
+/* Стили для карточки */
+.card {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для области загрузки */
+.upload-area {
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Стили для кнопки загрузки */
+#dropZone {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#dropZone:hover {
+    background-color: #f5f5f5;
+}
+
+/* Адаптивные стили */
+@media (max-width: 767.98px) {
+    .upload-area {
+        min-height: 100px;
+    }
+
+    .upload-area i {
+        font-size: 2rem;
+    }
+
+    .upload-area p {
+        font-size: 0.9rem;
+    }
+}

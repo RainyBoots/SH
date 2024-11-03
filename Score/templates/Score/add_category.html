@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Добавить категорию
+{% endblock  %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/score_catalog.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card border-dark">
+        <div class="card-header bg-dark text-white">
+            <h3 class="card-title">Добавить каьегорию для {{ ensemble_typet.name }}</h3>
+        </div>
+        <div class="card-body bg-light">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="category" class="form-label">Выберите категорию:</label>
+                    <select name="category_id" id="category" class="form-select bg-white text-dark">
+                        {% for category in form.category_id.field.queryset %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-dark">Добавить категорию</button>
+                    <a href="{% url 'ensemble_list' %}" class="btn btn-secondary">Назад</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+{% endblock %}

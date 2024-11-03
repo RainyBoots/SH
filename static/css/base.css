@@ -1,0 +1,6 @@
+body {
+    background-color: var(--secondary);
+    color: var(--primary);
+    padding-top: 4.5rem; 
+}
+

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css\upload.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Загрузка партитуры</h3>
+        </div>
+        <div class="card-body">
+            <div id="errorMessages" class="alert alert-danger" style="display: none;"></div>
+            <form method="post" enctype="multipart/form-data" id="scoreUploadForm">
+                {% csrf_token %}
+                
+                <div class="upload-area mb-4">
+                    <div class="text-center p-4 border rounded" id="dropZone">
+                        <i class="fas fa-cloud-upload-alt fa-3x mb-3"></i>
+                        <p>Перетащите файл сюда или</p>
+                        <div class="mb-3">
+                            {{ form.score }}
+                        </div>
+                        <small class="text-muted">Поддерживаются файлы .musicxml, .xml</small>
+                    </div>
+                </div>
+
+                <div id="previewSection" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Название:</label>
+                            {{ form.envelope_title }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Тональность:</label>
+                            {{ form.key }}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label>Количество партий:</label>
+                            {{ form.part_count }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label>Количество страниц:</label>
+                            {{ form.page_count }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label>Количество тактов:</label>
+                            {{ form.measures }}
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-dark">Сохранить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initScoreUpload("{% url 'score_upload' %}");
+    });
+</script>
+<script src="{% static 'js/upload_score.js' %}"></script>
+{% endblock %}

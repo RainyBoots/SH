@@ -1,0 +1,79 @@
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary-subtle">
+    <div class="container-fluid">
+        <!-- Логотип -->
+        <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+            <i class="fas fa-music me-2"></i>SCOREHUB
+        </a>
+
+        <!-- Поисковая строка -->
+        <form class="d-flex me-auto position-relative" role="search" method="get" action="{% url 'score_catalog' %}">
+            <div class="input-group">
+                <input class="form-control" type="search" name="search" 
+                       placeholder="Поиск нот, исполнителей, композиторов..." 
+                       aria-label="Search"
+                       value="{{ search_query }}">
+                
+                <!-- Скрытые поля для передачи текущих фильтров -->
+                <input type="hidden" name="ensemble_type" value="{{ selected_ensemble_types|join:',' }}">
+                <input type="hidden" name="instrument" value="{{ selected_instruments|join:',' }}">
+                
+                <button class="btn btn-outline-primary" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+        <!-- Кнопка мобильного меню -->
+        <button class="navbar-toggler" type="button" 
+                data-bs-toggle="collapse" 
+                data-bs-target="#navbarContent" 
+                aria-controls="navbarContent" 
+                aria-expanded="false" 
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Основное меню -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <!-- Левая часть меню -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- Категории -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" 
+                    role="button" data-bs-toggle="dropdown" 
+                    aria-expanded="false">
+                        <i class="fas fa-folder me-1"></i>Категории
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'solo_piano_scores' %}">Фортепиано</a></li>
+                        <li><a class="dropdown-item" href="{% url 'solo_guitar_scores' %}">Гитара</a></li>
+                        <!-- Другие категории -->
+                    </ul>
+                </li>
+
+                <!-- Библиотека -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'score_catalog' %}">
+                        <i class="fas fa-book me-1"></i>Библиотека
+                    </a>
+                </li>
+
+                <!-- Новые поступления -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'favorite_scores' %}">
+                        <i class="fas fa-heart text-danger me-1"></i>Избранное
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Правая часть меню -->
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <!-- Загрузить ноты -->
+                <li class="nav-item">
+                    <a class="nav-link btn btn-outline-primary btn-sm px-3 me-2" href="{% url 'score_upload' %}">
+                        <i class="fas fa-upload me-1"></i>Загрузить
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css\upload.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="card-title">Обновление партитуры</h3>
+                <a href="{% url 'score_catalog' %}" class="btn btn-secondary">Назад</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="errorMessages" class="alert alert-danger" style="display: none;"></div>
+            <form id="updateScoreForm" action="{% url 'score_update' score.id %}" method="POST" enctype="multipart/form-data" class="update-form">
+                {% csrf_token %}
+                
+                <div class="upload-area mb-4">
+                    <div class="text-center p-4 border rounded" id="dropZone">
+                        <i class="fas fa-cloud-upload-alt fa-3x mb-3"></i>
+                        <p>Перетащите файл сюда или</p>
+                        <div class="mb-3">
+                            {{ form.score }}
+                        </div>
+                        <small class="text-muted">Поддерживаются файлы .musicxml, .xml</small>
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-dark">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+        <div class="spinner"></div>
+        <p>Обновление партитуры...</p>
+    </div>
+
+    <div id="errorMessages" class="alert alert-danger" style="display: none;"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/Load.js' %}">
+</script>
+{% endblock %}

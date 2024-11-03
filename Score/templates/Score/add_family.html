@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/score_catalog.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card border-dark">
+        <div class="card-header bg-dark text-white">
+            <h3 class="card-title">Добавить семью для {{ instrument.name }}</h3>
+        </div>
+        <div class="card-body bg-light">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="family" class="form-label">Выберите семью:</label>
+                    <select name="family_id" id="family" class="form-select bg-white text-dark">
+                        {% for family in form.family_id.field.queryset %}
+                            <option value="{{ family.id }}">{{ family.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-dark">Добавить семью</button>
+                    <a href="{% url 'instrument_list' %}" class="btn btn-secondary">Назад</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}
